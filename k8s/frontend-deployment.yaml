@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cicd-frontend
+  template:
+    metadata:
+      labels:
+        app: cicd-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: your-dockerhub-username/cicd-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cicd-frontend-service
+spec:
+  selector:
+    app: cicd-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
